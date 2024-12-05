@@ -15,19 +15,7 @@ for (const arg of argv.slice(2)) {
    if (k) args[k] = v ? v : true
 }
 console.log("Running with args:")
-for (const [k, v] of Object.entries(args)) {
-   console.log(`  --${k}=${v}`)
-}
-
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
-
-const newLocker = () => {
-   let mutex = Promise.resolve()
-   return () =>
-      new Promise((resolve) => {
-         mutex = mutex.then(() => new Promise(resolve))
-      })
-}
+for (const [k, v] of Object.entries(args)) console.log(`  --${k}=${v}`)
 
 const browser = await puppeteer.launch({
    args: puppeteerArgs,
@@ -148,8 +136,13 @@ const usage = () => {
    return s + "-".repeat(funcNamesWidth) + "-+-" + "-".repeat(funcNamesWidth)
 }
 
-const putInfo = (...ss) => console.log("INFO:", ss.join("\n"))
-
+const newLocker = () => {
+   let mutex = Promise.resolve()
+   return () =>
+      new Promise((resolve) => {
+         mutex = mutex.then(() => new Promise(resolve))
+      })
+}
 const locking = newLocker()
 let expectedClose = false
 
@@ -193,7 +186,7 @@ const server = http.createServer(async (req, res) => {
             ;({ info } = await func(...args))
          }
       }
-      if (info) putInfo(info)
+      if (info) console.log(`INFO: ${info}`)
       res.end()
    } catch (e) {
       const s = `ERROR: ${e.message}\n`
