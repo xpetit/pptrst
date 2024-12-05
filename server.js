@@ -1,5 +1,5 @@
 //-----HARDCODED OPTIONS-------------------------------------------------------
-const puppeteerArgs = ["--start-maximized", "--lang=en"]
+const puppeteerArgs = ["--start-maximized", "--lang=en", "--no-sandbox", "--disable-setuid-sandbox"]
 const timeout = 10 // in seconds, for webpages to load, /2 for clicks
 //-----------------------------------------------------------------------------
 
