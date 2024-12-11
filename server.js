@@ -59,9 +59,7 @@ page.on("console", (message) => {
    if (type === "warn" || type === "error") console.log(`INFO: (page ${type})`, message.text())
 })
 
-const xpath = (xpath) => `::-p-xpath(${xpath.replaceAll("\n", "")})`
-
-const getHandle = async (selector) => {
+const getHandle = async (xpath) => {
    const nbShadowChildren = await page.evaluate(() => {
       document.shadowChildren = []
       let elems = [document.body]
@@ -82,9 +80,24 @@ const getHandle = async (selector) => {
    for (let i = 0; i < nbShadowChildren; i++) {
       shadowChildren.push((await page.evaluateHandle(() => document.shadowChildren.shift())).asElement())
    }
-   const selectorX = xpath(selector)
-   const handles = [page.locator(selectorX).waitHandle(), ...shadowChildren.map((h) => h.waitForSelector(selectorX))]
-   return Promise.any(handles).catch(() => Promise.reject(Error(`"${selector}" not found`)))
+   const handles = [
+      (() =>
+         page.waitForFunction(
+            (xpath) => {
+               const items = document.evaluate(xpath, document.body, null, XPathResult.ANY_TYPE, null)
+               for (;;) {
+                  const item = items.iterateNext()
+                  if (!item) break
+                  if (item.checkVisibility()) return item
+               }
+               return false
+            },
+            {},
+            xpath.replaceAll("\n", ""),
+         ))(),
+      ...shadowChildren.map((h) => h.waitForSelector(xpathLocator)), // TODO: use the same mechanism to find handles
+   ]
+   return Promise.any(handles).catch(() => Promise.reject(Error(`"${xpath}" not found`)))
 }
 
 const getFieldHandle = (target) =>
