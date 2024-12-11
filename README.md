@@ -1,9 +1,16 @@
 ### Setup
 
+-  Installer `git` et `curl`
+-  [Installer Node.js](https://nodejs.org/en/download/package-manager)
+-  Installer les dépendances de Chrome :
+   ```
+   apt install --no-install-recommends libdrm2 libgbm1 libgtk-3-0 libnss3
+   ```
+
 Dans ce dossier :
 
 1. Installer les dépendances : `npm i`
-2. Lancer le navigateur : `node server.js --dev` (enlever `--dev` en production)
+2. Lancer le navigateur : `node server.js --dev` (enlever `--dev` en production / sur un serveur distant)
 
 ### Usage
 
@@ -17,3 +24,14 @@ curl --get localhost:8080/click --data-urlencode 'arg=Recherche Google'
 curl --get localhost:8080/click --data-urlencode 'arg=Symbole euro'
 curl --get localhost:8080/close
 ```
+
+### API
+
+| Path        | Arguments        | Description                                                                |
+| ----------- | ---------------- | -------------------------------------------------------------------------- |
+| `/close`    |                  | Coupe le service                                                           |
+| `/goto`     | `url`            | Ouvre la page                                                              |
+| `/reload`   |                  | Recharge la page                                                           |
+| `/click`    | `target`         | Clique sur l'élément (bouton, lien)                                        |
+| `/fill`     | `target`, `text` | Saisit le texte dans le champ désigné par `target` (label, placeholder)    |
+| `/navigate` | `target`         | Clique un lien ou un bouton de navigation (entraînant un changement d'URL) |
