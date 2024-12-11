@@ -57,7 +57,7 @@ curl --get localhost:8080/close
 
 ### TODO
 
--  Vérifier que chaque élément est visible à l'écran
+-  Dump HTML
 -  Retourner un status "`404` Not Found" quand un élément n'a pas été trouvé
 -  Pouvoir utiliser un binaire spécifique de Chrome
 -  Pouvoir utiliser le service avec une fenêtre accessible en VNC
