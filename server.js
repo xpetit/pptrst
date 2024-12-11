@@ -23,8 +23,9 @@ for (const arg of argv.slice(2)) {
 for (const key of Object.keys(args))
    switch (key) {
       case "port":
-      case "timeout":
       case "window":
+      case "timeout":
+      case "binary-path":
          break
       default:
          throw Error(`Unknown option: "${key}"`)
@@ -44,11 +45,13 @@ const isArgSet = (k) => {
    return v !== "false" || v !== "0"
 }
 
-const browser = await puppeteer.launch({
+const opts = {
    args: chromeArgs,
    defaultViewport: { width: 0, height: 0 },
    headless: !isArgSet("window"),
-})
+}
+if (args["binary-path"]) opts.executablePath = args["binary-path"]
+const browser = await puppeteer.launch(opts)
 
 const [page] = await browser.pages()
 page.setDefaultTimeout((args.timeout * 1000) / 2)

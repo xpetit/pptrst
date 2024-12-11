@@ -7,7 +7,7 @@
    apt install --no-install-recommends libdrm2 libgbm1 libgtk-3-0 libnss3
    ```
 -  Cloner le dépôt
--  Dans le dossier cloné, installer les dépendances avec `npm install`
+-  Dans le dossier cloné, installer les dépendances avec `npm install` (la variable d'environnement `PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true` permet de ne pas télécharger Chrome)
 
 ### Usage
 
@@ -18,6 +18,7 @@ Options :
 -  `--port=8080`: Écoute sur le port 8080 les requêtes HTTP
 -  `--window`: Affiche la fenêtre (désactive le mode _headless_ de puppeteer)
 -  `--timeout=10`: 10 secondes pour charger les pages, 5 secondes pour trouver des éléments dans les pages
+-  `--binary-path=/bin/chromium`: Chemin vers un binaire spécifique de Chrome
 
 Options pour Chrome (doivent commencer par `--chrome-`, voir : [la liste complète](https://peter.sh/experiments/chromium-command-line-switches)) :
 
@@ -61,7 +62,6 @@ curl --get localhost:8080/close
 
 -  Dump HTML
 -  Retourner un status "`404` Not Found" quand un élément n'a pas été trouvé
--  Pouvoir utiliser un binaire spécifique de Chrome
 -  Pouvoir utiliser le service avec une fenêtre accessible en VNC
 -  Implémenter `/screenshot`
 -  Prendre un screenshot en cas d'erreur inattendue
