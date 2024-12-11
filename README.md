@@ -26,10 +26,11 @@ Options pour Chrome (doivent commencer par `--chrome-`, voir : [la liste complè
 
 Une fois le service lancé, appeler l'API : `curl localhost:8080`. Exemple :
 
-```
+```bash
 curl --get localhost:8080/goto  --data-urlencode 'arg=google.fr'
 curl --get localhost:8080/click --data-urlencode 'arg=Tout refuser'
 curl --get localhost:8080/fill  --data-urlencode 'arg=Rechercher' --data-urlencode 'arg=€'
+curl --get localhost:8080/press --data-urlencode 'arg=Escape' # To prevent autocomplete from covering the search button
 curl --get localhost:8080/click --data-urlencode 'arg=Recherche Google'
 curl --get localhost:8080/click --data-urlencode 'arg=Symbole euro'
 curl --get localhost:8080/close
@@ -37,14 +38,15 @@ curl --get localhost:8080/close
 
 ### API
 
-| Path        | Arguments        | Description                                                                    |
-| ----------- | ---------------- | ------------------------------------------------------------------------------ |
-| `/close`    |                  | Coupe le service                                                               |
-| `/goto`     | `url`            | Ouvre la page                                                                  |
-| `/reload`   |                  | Recharge la page                                                               |
-| `/navigate` | `target`         | Clique sur un lien ou un bouton de navigation (entraînant un changement d'URL) |
-| `/click`    | `target`         | Clique sur un lien ou un bouton                                                |
-| `/fill`     | `target`, `text` | Saisit le texte dans le champ désigné par son label ou placeholder             |
+| Path        | Arguments        | Description                                                                        |
+| ----------- | ---------------- | ---------------------------------------------------------------------------------- |
+| `/close`    |                  | Coupe le service                                                                   |
+| `/goto`     | `url`            | Ouvre la page                                                                      |
+| `/reload`   |                  | Recharge la page                                                                   |
+| `/navigate` | `target`         | Clique sur un lien ou un bouton de navigation (entraînant un changement d'URL)     |
+| `/click`    | `target`         | Clique sur un lien ou un bouton                                                    |
+| `/fill`     | `target`, `text` | Saisit le texte dans le champ désigné par son label ou placeholder                 |
+| `/press`    | `key`            | Appuie sur la touche de clavier ([liste](https://pptr.dev/api/puppeteer.keyinput)) |
 
 #### Codes de retour :
 

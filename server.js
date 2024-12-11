@@ -151,6 +151,11 @@ const lib = {
       await handle.type(text)
       return {}
    },
+
+   press: async (key) => {
+      await page.keyboard.press(key)
+      return {}
+   },
 }
 
 const funcNames = Object.keys(lib).sort((a, b) => (a < b ? -1 : 1))
