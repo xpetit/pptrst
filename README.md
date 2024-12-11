@@ -23,6 +23,8 @@ Options pour Chrome (doivent commencer par `--chrome-`, voir : [la liste complè
 
 -  `--chrome-start-maximized`: Lance la fenêtre en prenant tout l'écran
 -  `--chrome-lang=en`: Change la langue de Chrome en anglais
+-  `--chrome-proxy-server="socks5://myproxy:8888"`: Utilise un proxy SOCKS5 (voir [Configuring a SOCKS proxy server in Chrome](https://www.chromium.org/developers/design-documents/network-stack/socks-proxy/))
+-  `--chrome-host-resolver-rules="MAP * ~NOTFOUND , EXCLUDE myproxy"`: Utilise un proxy SOCKS5 (voir [Configuring a SOCKS proxy server in Chrome](https://www.chromium.org/developers/design-documents/network-stack/socks-proxy/))
 
 Une fois le service lancé, appeler l'API : `curl localhost:8080`. Exemple :
 
@@ -62,5 +64,4 @@ curl --get localhost:8080/close
 -  Pouvoir utiliser un binaire spécifique de Chrome
 -  Pouvoir utiliser le service avec une fenêtre accessible en VNC
 -  Implémenter `/screenshot`
--  Gérer proxy SOCKS5 (IP:PORT)
 -  Prendre un screenshot en cas d'erreur inattendue
