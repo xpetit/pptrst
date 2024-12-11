@@ -1,5 +1,5 @@
 //-----HARDCODED OPTIONS-------------------------------------------------------
-const puppeteerArgs = ["--start-maximized", "--lang=en", "--no-sandbox", "--disable-setuid-sandbox"]
+const chromeArgs = ["--start-maximized", "--lang=en", "--no-sandbox", "--disable-setuid-sandbox"]
 const timeout = 10 // in seconds, for webpages to load, /2 for clicks
 //-----------------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ console.log("Running with args:")
 for (const [k, v] of Object.entries(args)) console.log(`  --${k}=${v}`)
 
 const browser = await puppeteer.launch({
-   args: puppeteerArgs,
+   args: chromeArgs,
    defaultViewport: { width: 0, height: 0 },
    headless: !args.dev,
 })
