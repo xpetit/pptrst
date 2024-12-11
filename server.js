@@ -88,7 +88,9 @@ const getHandle = async (xpath) => {
                for (;;) {
                   const item = items.iterateNext()
                   if (!item) break
-                  if (item.checkVisibility()) return item
+                  if (!item.checkVisibility()) continue
+                  const { width, height } = item.getBoundingClientRect()
+                  if (width && height) return item
                }
                return false
             },
