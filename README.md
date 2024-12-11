@@ -47,3 +47,12 @@ curl --get localhost:8080/close
 | ----------------- | ------------------------------------------------------- |
 | `200` OK          | Tout va bien                                            |
 | `400` Bad Request | Quelque chose s'est mal déroulé (voir message d'erreur) |
+
+### TODO
+
+-  Retourner un status "`404` Not Found" quand un élément n'a pas été trouvé
+-  Pouvoir utiliser un binaire spécifique de Chrome
+-  Pouvoir utiliser le service avec une fenêtre accessible en VNC
+-  Implémenter `/screenshot`
+-  Gérer proxy SOCKS5 (IP:PORT)
+-  Prendre un screenshot en cas d'erreur inattendue
