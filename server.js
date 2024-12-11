@@ -159,6 +159,8 @@ const lib = {
       await page.keyboard.press(key)
       return {}
    },
+
+   dump: async () => ({ body: await page.evaluate(() => document.body.innerHTML) }),
 }
 
 const funcNames = Object.keys(lib).sort((a, b) => (a < b ? -1 : 1))
@@ -216,25 +218,26 @@ const server = http.createServer(async (req, res) => {
       const args = new URLSearchParams(address.query).getAll("arg")
       if (args.length !== func.length)
          throw Error(`Expected ${func.length} argument(s): (${funcArgs[funcName].join(", ")}), received ${args.length} argument(s): (${args.join(", ")})`)
-      let info
+      let info, body
       switch (func.length) {
          case 0: {
             console.log(`INFO: proc ${funcName}()`)
-            ;({ info } = await func())
+            ;({ info, body } = await func())
             break
          }
          case 1: {
             console.log(`INFO: proc ${funcName}("${args[0]}")`)
-            ;({ info } = await func(args[0]))
+            ;({ info, body } = await func(args[0]))
             break
          }
          default: {
             console.log(`INFO: proc ${funcName}("${args.join(`", "`)}")`)
-            ;({ info } = await func(...args))
+            ;({ info, body } = await func(...args))
          }
       }
       if (info) console.log(`INFO: ${info}`)
-      res.end()
+      if (body) res.end(body)
+      else res.end()
    } catch (e) {
       const s = `ERROR: ${e.message}\n`
       process.stdout.write(s)

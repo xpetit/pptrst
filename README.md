@@ -41,15 +41,16 @@ curl --get localhost:8080/close
 
 ### API
 
-| Path        | Arguments        | Description                                                                        |
-| ----------- | ---------------- | ---------------------------------------------------------------------------------- |
-| `/close`    |                  | Coupe le service                                                                   |
-| `/goto`     | `url`            | Ouvre la page                                                                      |
-| `/reload`   |                  | Recharge la page                                                                   |
-| `/navigate` | `target`         | Clique sur un lien ou un bouton de navigation (entraînant un changement d'URL)     |
-| `/click`    | `target`         | Clique sur un lien ou un bouton                                                    |
-| `/fill`     | `target`, `text` | Saisit le texte dans le champ désigné par son label ou placeholder                 |
-| `/press`    | `key`            | Appuie sur la touche de clavier ([liste](https://pptr.dev/api/puppeteer.keyinput)) |
+| Path        | Arguments        | Description                                                                                    |
+| ----------- | ---------------- | ---------------------------------------------------------------------------------------------- |
+| `/close`    |                  | Coupe le service                                                                               |
+| `/goto`     | `url`            | Ouvre la page                                                                                  |
+| `/reload`   |                  | Recharge la page                                                                               |
+| `/navigate` | `target`         | Clique sur un lien ou un bouton de navigation (entraînant un changement d'URL)                 |
+| `/click`    | `target`         | Clique sur un lien ou un bouton                                                                |
+| `/fill`     | `target`, `text` | Saisit le texte dans le champ désigné par son label ou placeholder                             |
+| `/press`    | `key`            | Appuie sur la touche de clavier ([liste des touches](https://pptr.dev/api/puppeteer.keyinput)) |
+| `/dump`     |                  | Renvoie l'HTML de la page                                                                      |
 
 #### Codes de retour :
 
@@ -60,7 +61,7 @@ curl --get localhost:8080/close
 
 ### TODO
 
--  Dump HTML
+-  Clean HTML dump
 -  Retourner un status "`404` Not Found" quand un élément n'a pas été trouvé
 -  Pouvoir utiliser le service avec une fenêtre accessible en VNC
 -  Implémenter `/screenshot`
