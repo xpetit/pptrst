@@ -20,11 +20,15 @@ for (const arg of argv.slice(2)) {
    }
 }
 
-// for (const arg of args)
-//    switch (arg) {
-//       case "timeout":
-//       case "window":
-//    }
+for (const key of Object.keys(args))
+   switch (key) {
+      case "port":
+      case "timeout":
+      case "window":
+         break
+      default:
+         throw Error(`Unknown option: "${key}"`)
+   }
 
 console.log("Running with args:")
 for (const [k, v] of Object.entries(args))
