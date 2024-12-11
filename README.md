@@ -30,12 +30,12 @@ Options pour Chrome (doivent commencer par `--chrome-`, voir : [la liste complè
 Une fois le service lancé, appeler l'API : `curl localhost:8080`. Exemple :
 
 ```bash
-curl --get localhost:8080/goto  --data-urlencode 'arg=google.fr'
-curl --get localhost:8080/click --data-urlencode 'arg=Tout refuser'
-curl --get localhost:8080/fill  --data-urlencode 'arg=Rechercher' --data-urlencode 'arg=€'
-curl --get localhost:8080/press --data-urlencode 'arg=Escape' # To prevent autocomplete from covering the search button
-curl --get localhost:8080/click --data-urlencode 'arg=Recherche Google'
-curl --get localhost:8080/click --data-urlencode 'arg=Symbole euro'
+curl --get localhost:8080/goto     --data-urlencode 'arg=google.fr'
+curl --get localhost:8080/click    --data-urlencode 'arg=Tout refuser'
+curl --get localhost:8080/fill     --data-urlencode 'arg=Rechercher' --data-urlencode 'arg=€'
+curl --get localhost:8080/press    --data-urlencode 'arg=Escape' # To prevent autocomplete from covering the search button
+curl --get localhost:8080/navigate --data-urlencode 'arg=Recherche Google'
+curl --get localhost:8080/navigate --data-urlencode 'arg=Symbole euro'
 curl --get localhost:8080/close
 ```
 

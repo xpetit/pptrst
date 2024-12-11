@@ -134,6 +134,7 @@ const lib = {
       const waiter = page.waitForNavigation()
       await lib.click(target)
       await waiter
+      return {}
    },
    click: async (target) => {
       if (!target) throw new Error(`Target is undefined: "${target}"`)
