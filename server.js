@@ -70,14 +70,26 @@ const getFieldHandle = (target) =>
 const lib = {
    close: () => {},
 
-   fill: async (target, text) => {
-      const handle = await getFieldHandle(target).catch(() => Promise.reject(Error(`"${target}" not found`)))
-      const value = await handle.evaluate((e) => e.value)
-      if (value) throw Error(`"${target}" text field is not empty (has value: "${value}")`)
-      await handle.type(text)
+   goto: async (url) => {
+      if (!url.startsWith("http")) url = `https://${url}`
+      await page.goto(url, { waitUntil: ["load", "networkidle0"] })
+      const actualURL = page.url()
+      if (actualURL !== url) return { info: `"${url}" redirected to "${actualURL}"` }
+      return {}
+   },
+   reload: async () => {
+      const url = page.url()
+      await page.reload({ waitUntil: ["load", "networkidle0"] })
+      const actualURL = page.url()
+      if (actualURL !== url) return { info: `"${url}" redirected to "${actualURL}"` }
       return {}
    },
 
+   navigate: async (target) => {
+      const waiter = page.waitForNavigation()
+      await lib.click(target)
+      await waiter
+   },
    click: async (target) => {
       if (!target) throw new Error(`Target is undefined: "${target}"`)
       const handle = await getHandle(`
@@ -90,26 +102,11 @@ const lib = {
       await handle.click()
       return {}
    },
-
-   navigate: async (target) => {
-      const waiter = page.waitForNavigation()
-      await lib.click(target)
-      await waiter
-   },
-
-   goto: async (url) => {
-      if (!url.startsWith("http")) url = `https://${url}`
-      await page.goto(url, { waitUntil: ["load", "networkidle0"] })
-      const actualURL = page.url()
-      if (actualURL !== url) return { info: `"${url}" redirected to "${actualURL}"` }
-      return {}
-   },
-
-   reload: async () => {
-      const url = page.url()
-      await page.reload({ waitUntil: ["load", "networkidle0"] })
-      const actualURL = page.url()
-      if (actualURL !== url) return { info: `"${url}" redirected to "${actualURL}"` }
+   fill: async (target, text) => {
+      const handle = await getFieldHandle(target).catch(() => Promise.reject(Error(`"${target}" not found`)))
+      const value = await handle.evaluate((e) => e.value)
+      if (value) throw Error(`"${target}" text field is not empty (has value: "${value}")`)
+      await handle.type(text)
       return {}
    },
 }

@@ -27,11 +27,11 @@ curl --get localhost:8080/close
 
 ### API
 
-| Path        | Arguments        | Description                                                                |
-| ----------- | ---------------- | -------------------------------------------------------------------------- |
-| `/close`    |                  | Coupe le service                                                           |
-| `/goto`     | `url`            | Ouvre la page                                                              |
-| `/reload`   |                  | Recharge la page                                                           |
-| `/click`    | `target`         | Clique sur l'élément (bouton, lien)                                        |
-| `/fill`     | `target`, `text` | Saisit le texte dans le champ désigné par `target` (label, placeholder)    |
-| `/navigate` | `target`         | Clique un lien ou un bouton de navigation (entraînant un changement d'URL) |
+| Path        | Arguments        | Description                                                                    |
+| ----------- | ---------------- | ------------------------------------------------------------------------------ |
+| `/close`    |                  | Coupe le service                                                               |
+| `/goto`     | `url`            | Ouvre la page                                                                  |
+| `/reload`   |                  | Recharge la page                                                               |
+| `/navigate` | `target`         | Clique sur un lien ou un bouton de navigation (entraînant un changement d'URL) |
+| `/click`    | `target`         | Clique sur un lien ou un bouton                                                |
+| `/fill`     | `target`, `text` | Saisit le texte dans le champ désigné par son label ou placeholder             |
