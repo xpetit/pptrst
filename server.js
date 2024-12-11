@@ -1,31 +1,54 @@
-//-----HARDCODED OPTIONS-------------------------------------------------------
-const chromeArgs = ["--no-sandbox", "--disable-setuid-sandbox"]
-const timeout = 10 // in seconds, for webpages to load, /2 for clicks
-//-----------------------------------------------------------------------------
-
 import { argv } from "node:process"
 import * as http from "node:http"
 import * as url from "node:url"
 import * as puppeteer from "puppeteer"
 import assert from "node:assert"
 
-const args = { port: "8080", dev: false }
-for (const arg of argv.slice(2)) {
-   const [k, v] = arg.slice(2).split("=")
-   if (k) args[k] = v ? v : true
+const args = {
+   timeout: 10, // in seconds, for webpages to load, /2 for clicks
+   port: "8080",
 }
+const chromeArgs = ["--no-sandbox", "--disable-setuid-sandbox"]
+for (const arg of argv.slice(2)) {
+   if (!arg.startsWith("--")) throw Error(`Bad argument: "${arg}", should start with: "--"`)
+   if (!arg) throw Error(`Empty argument: "${arg}"`)
+   if (arg.startsWith("--chrome-")) {
+      chromeArgs.push(arg.replace(/^--chrome-/, "--"))
+   } else {
+      const [k, v] = arg.slice(2).split("=")
+      args[k] = v
+   }
+}
+
+// for (const arg of args)
+//    switch (arg) {
+//       case "timeout":
+//       case "window":
+//    }
+
 console.log("Running with args:")
-for (const [k, v] of Object.entries(args)) console.log(`  --${k}=${v}`)
+for (const [k, v] of Object.entries(args))
+   if (v) console.log(`  --${k}=${v}`)
+   else console.log(`  --${k}`)
+console.log("Running Chrome with args:")
+for (const arg of chromeArgs) console.log(`  ${arg}`)
+
+const isArgSet = (k) => {
+   if (!(k in args)) return false
+   const v = args[k]
+   if (v === undefined) return true
+   return v !== "false" || v !== "0"
+}
 
 const browser = await puppeteer.launch({
    args: chromeArgs,
    defaultViewport: { width: 0, height: 0 },
-   headless: !args.dev,
+   headless: !isArgSet("window"),
 })
 
 const [page] = await browser.pages()
-page.setDefaultTimeout((timeout * 1000) / 2)
-page.setDefaultNavigationTimeout(timeout * 1000)
+page.setDefaultTimeout((args.timeout * 1000) / 2)
+page.setDefaultNavigationTimeout(args.timeout * 1000)
 page.on("pageerror", (err) => console.log("INFO: (page error)", err))
 page.on("console", (message) => {
    const type = message.type()

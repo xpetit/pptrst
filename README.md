@@ -11,11 +11,16 @@
 
 ### Usage
 
-Lancer le serveur HTTP et le navigateur : `node server.js --dev` (enlever `--dev` en production / sur un serveur distant)
+Lancer le serveur HTTP et le navigateur avec sa fenêtre : `node server.js --window`
 
-Options (toutes celles commençant par `--chrome-` sont passées à Chrome, voir : [la liste complète](https://peter.sh/experiments/chromium-command-line-switches)):
+Options :
 
--  `--dev`: Affiche la fenêtre (désactive le mode _headless_ de puppeteer)
+-  `--port=8080`: Écoute sur le port 8080 les requêtes HTTP
+-  `--window`: Affiche la fenêtre (désactive le mode _headless_ de puppeteer)
+-  `--timeout=10`: 10 secondes pour charger les pages, 5 secondes pour trouver des éléments dans les pages
+
+Options pour Chrome (doivent commencer par `--chrome-`, voir : [la liste complète](https://peter.sh/experiments/chromium-command-line-switches)) :
+
 -  `--chrome-start-maximized`: Lance la fenêtre en prenant tout l'écran
 -  `--chrome-lang=en`: Change la langue de Chrome en anglais
 
@@ -50,6 +55,7 @@ curl --get localhost:8080/close
 
 ### TODO
 
+-  Vérifier que chaque élément est visible à l'écran
 -  Retourner un status "`404` Not Found" quand un élément n'a pas été trouvé
 -  Pouvoir utiliser un binaire spécifique de Chrome
 -  Pouvoir utiliser le service avec une fenêtre accessible en VNC
