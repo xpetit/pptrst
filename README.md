@@ -63,6 +63,5 @@ curl --get localhost:8080/close
 
 -  Clean HTML dump
 -  Retourner un status "`404` Not Found" quand un élément n'a pas été trouvé
--  Pouvoir utiliser le service avec une fenêtre accessible en VNC
 -  Implémenter `/screenshot`
 -  Prendre un screenshot en cas d'erreur inattendue
