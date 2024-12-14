@@ -161,7 +161,64 @@ const lib = {
       return {}
    },
 
-   dump: async () => ({ body: await page.evaluate(() => document.body.innerHTML) }),
+   dump: async () => ({
+      body: await page.evaluate(() => {
+         const bodyCopy = document.importNode(document.body, true)
+         let deletedItems = false
+         const filter = (children) => {
+            for (const e of children) {
+               let toDelete = false
+               switch (e.tagName) {
+                  case "NOSCRIPT":
+                  case "SCRIPT":
+                  case "STYLE":
+                  case "svg":
+                  case "TEMPLATE":
+                     toDelete = true
+                     break
+                  case "SPAN":
+                     if (!e.children.length && !e.textContent.trim()) toDelete = true
+                     break
+                  case "DIV":
+                     if (!e.children.length) toDelete = true
+                     break
+               }
+               if (toDelete) {
+                  e.remove()
+                  deletedItems = true
+                  continue
+               }
+               for (const attr of [...e.attributes]) {
+                  // Keep these attributes:
+                  switch (attr.name) {
+                     case "action":
+                     case "for":
+                     case "href":
+                     // case "id":
+                     case "method":
+                     case "name":
+                     case "role":
+                     case "src":
+                     case "target":
+                     case "title":
+                     case "type":
+                     case "value":
+                        continue
+                  }
+                  e.removeAttribute(attr.name)
+               }
+               filter([...e.children])
+            }
+         }
+         // TODO: optimize
+         for (;;) {
+            deletedItems = false
+            filter([...bodyCopy.children])
+            if (!deletedItems) break
+         }
+         return bodyCopy.innerHTML
+      }),
+   }),
 }
 
 const funcNames = Object.keys(lib).sort((a, b) => (a < b ? -1 : 1))
