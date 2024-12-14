@@ -216,6 +216,19 @@ const lib = {
             filter([...bodyCopy.children])
             if (!deletedItems) break
          }
+         const upwards = (children) => {
+            for (const e of children) {
+               if (e.tagName === "DIV") {
+                  while (e.children.length === 1 && e.children[0].tagName === "DIV") {
+                     const div = e.children[0]
+                     e.append(...div.children)
+                     div.remove()
+                  }
+               }
+               upwards([...e.children])
+            }
+         }
+         upwards([...bodyCopy.children])
          return bodyCopy.innerHTML
       }),
    }),
