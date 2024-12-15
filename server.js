@@ -8,7 +8,7 @@ const args = {
    timeout: 10, // in seconds, for webpages to load, /2 for clicks
    port: "8080",
 }
-const chromeArgs = ["--no-sandbox", "--disable-setuid-sandbox"]
+const chromeArgs = ["--no-sandbox", "--disable-setuid-sandbox", "--window-size=1600,900"]
 for (const arg of argv.slice(2)) {
    if (!arg.startsWith("--")) throw Error(`Bad argument: "${arg}", should start with: "--"`)
    if (!arg) throw Error(`Empty argument: "${arg}"`)
@@ -47,7 +47,7 @@ const isArgSet = (k) => {
 
 const opts = {
    args: chromeArgs,
-   defaultViewport: { width: 0, height: 0 },
+   defaultViewport: null,
    headless: !isArgSet("window"),
 }
 if (args["binary-path"]) opts.executablePath = args["binary-path"]
