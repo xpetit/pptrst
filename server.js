@@ -235,7 +235,6 @@ const lib = {
 }
 
 const funcNames = Object.keys(lib).sort((a, b) => (a < b ? -1 : 1))
-const funcNamesWidth = funcNames.reduce((prev, v) => (v.length > prev ? v.length : prev), 0)
 const funcArgs = Object.fromEntries(
    funcNames.map((name) => {
       const func = lib[name]
@@ -249,12 +248,13 @@ const funcArgs = Object.fromEntries(
    }),
 )
 
-const usage = () => {
+const usage = (() => {
+   const funcNamesWidth = funcNames.reduce((prev, v) => (v.length > prev ? v.length : prev), 0)
    let s = "Usage:\n" + "PROC".padStart(funcNamesWidth) + " | PARAMS\n"
    s += "-".repeat(funcNamesWidth) + "-+-" + "-".repeat(funcNamesWidth) + "\n"
    for (const funcName of funcNames) s += funcName.padStart(funcNamesWidth) + " | " + funcArgs[funcName].join(", ") + "\n"
    return s + "-".repeat(funcNamesWidth) + "-+-" + "-".repeat(funcNamesWidth)
-}
+})()
 
 const newLocker = () => {
    let mutex = Promise.resolve()
@@ -271,8 +271,8 @@ const server = http.createServer(async (req, res) => {
    try {
       const address = url.parse(req.url)
       const paths = address.pathname.split("/").filter(Boolean)
-      if (!paths.length) throw Error(`Missing proc name. ${usage()}`)
-      if (paths.length !== 1) throw Error(`Expected a single proc name, got: "${paths.join(`", "`)}". ${usage()}`)
+      if (!paths.length) throw Error(`Missing proc name. ${usage}`)
+      if (paths.length !== 1) throw Error(`Expected a single proc name, got: "${paths.join(`", "`)}". ${usage}`)
       const funcName = paths[0]
       if (funcName === "close") {
          console.log("INFO: proc close()")
@@ -285,7 +285,7 @@ const server = http.createServer(async (req, res) => {
          return
       }
       const func = lib[funcName]
-      if (!func) throw Error(`Unknown proc "${funcName}". ${usage()}`)
+      if (!func) throw Error(`Unknown proc "${funcName}". ${usage}`)
       const args = new URLSearchParams(address.query).getAll("arg")
       if (args.length !== func.length)
          throw Error(`Expected ${func.length} argument(s): (${funcArgs[funcName].join(", ")}), received ${args.length} argument(s): (${args.join(", ")})`)
