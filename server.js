@@ -3,6 +3,8 @@ import * as http from "node:http"
 import * as url from "node:url"
 import * as puppeteer from "puppeteer"
 import assert from "node:assert"
+import { tmpdir } from "node:os"
+import { join } from "node:path"
 
 const args = {
    timeout: 10, // in seconds, for webpages to load, /2 for clicks
@@ -232,6 +234,11 @@ const lib = {
          return bodyCopy.innerHTML
       }),
    }),
+
+   screenshot: async (path) => {
+      await page.screenshot({ path, fullPage: true })
+      return {}
+   },
 }
 
 const funcNames = Object.keys(lib).sort((a, b) => (a < b ? -1 : 1))
@@ -310,6 +317,7 @@ const server = http.createServer(async (req, res) => {
       if (body) res.end(body)
       else res.end()
    } catch (e) {
+      await page.screenshot({ fullPage: true, path: join(tmpdir(), `screenshot-${new Date().toISOString()}.png`) })
       const s = `ERROR: ${e.message}\n`
       process.stdout.write(s)
       res.writeHead(400, {

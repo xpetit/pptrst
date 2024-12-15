@@ -41,16 +41,17 @@ curl --get localhost:8080/close
 
 ### API
 
-| Path        | Arguments        | Description                                                                                    |
-| ----------- | ---------------- | ---------------------------------------------------------------------------------------------- |
-| `/close`    |                  | Coupe le service                                                                               |
-| `/goto`     | `url`            | Ouvre la page                                                                                  |
-| `/reload`   |                  | Recharge la page                                                                               |
-| `/navigate` | `target`         | Clique sur un lien ou un bouton de navigation (entraînant un changement d'URL)                 |
-| `/click`    | `target`         | Clique sur un lien ou un bouton                                                                |
-| `/fill`     | `target`, `text` | Saisit le texte dans le champ désigné par son label ou placeholder                             |
-| `/press`    | `key`            | Appuie sur la touche de clavier ([liste des touches](https://pptr.dev/api/puppeteer.keyinput)) |
-| `/dump`     |                  | Renvoie l'HTML de la page                                                                      |
+| Path          | Arguments        | Description                                                                                    |
+| ------------- | ---------------- | ---------------------------------------------------------------------------------------------- |
+| `/close`      |                  | Coupe le service                                                                               |
+| `/goto`       | `url`            | Ouvre la page                                                                                  |
+| `/reload`     |                  | Recharge la page                                                                               |
+| `/navigate`   | `target`         | Clique sur un lien ou un bouton de navigation (entraînant un changement d'URL)                 |
+| `/click`      | `target`         | Clique sur un lien ou un bouton                                                                |
+| `/fill`       | `target`, `text` | Saisit le texte dans le champ désigné par son label ou placeholder                             |
+| `/press`      | `key`            | Appuie sur la touche de clavier ([liste des touches](https://pptr.dev/api/puppeteer.keyinput)) |
+| `/dump`       |                  | Renvoie l'HTML de la page                                                                      |
+| `/screenshot` | `path`           | Prend une copie d'écran de toute la page et l'enregistre au chemin indiqué (au format PNG)     |
 
 #### Codes de retour :
 
@@ -62,5 +63,3 @@ curl --get localhost:8080/close
 ### TODO
 
 -  Retourner un status "`404` Not Found" quand un élément n'a pas été trouvé
--  Implémenter `/screenshot`
--  Prendre un screenshot en cas d'erreur inattendue
